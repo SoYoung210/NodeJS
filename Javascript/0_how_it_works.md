@@ -42,7 +42,7 @@ a()
 
 ## Javascript Runtime
 
-![runtime](./imgaes/js-runtime.png)
+![runtime](./images/js-runtime.png)
 
 사실 자바스크립트 엔진 밖에서도 자바스크립트 실행에 관여하는 요소들이 존재한다. 각각 Web API와 Task Queue, Event Loop 이다. 비동기 작업시 각 요소의 역할에 대해 알아보자.  
 (얘네 덕에 처음에 언급한 `마치 멀티스레드 같은` 느낌이 났다. )  
