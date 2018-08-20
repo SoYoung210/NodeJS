@@ -43,19 +43,36 @@ http.createServer(app).listen(app.get('port'), ()=>{
 })
 
 const mongoClient = require('mongodb').MongoClient;
-
+const mongoose = require('mongoose')
 const database
 
 function connectDB() {
     //로컬 pc의 27017포트에서 실행되고 있는 localdatabase에 연결하도록 연결정보 설정.
     let databaseUrl = 'mongodb://localhost:27017/local'
-
+/*
     mongoClient.connect(databaseUrl, (err,db) =>{
-
+        
         if(err) throw err;
 
         console.log('connected '+databaseUrl)
         database = db
+    })*/
+    mongoose.Promise = global.Promise
+    mongoose.connect(databaseUrl)
+    database = mongoose.connection
+
+    database.on('error', console.error.bind(console, 'mongoose error'))
+    database.on('open',()=> {
+        UserSchema = mongoose.Schema({
+            id : String,
+            name : String,
+            password : String
+        })
+        UserModel = mongoose.model("users ",UserSchema)
+        
+    })
+    database.on('disconnect',()=>{
+        setInterval(connectDB,5000)
     })
 }
 
