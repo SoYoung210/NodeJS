@@ -15,7 +15,7 @@ const app = express();
 //기본속성
 app.set('port',process.env.PORT||3000)
 //바디 파서를 사용해 application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({encoded:flase}))
+app.use(bodyParser.urlencoded({encoded:false}))
 
 //바디파서를 사용해 application/json 파싱
 app.use(bodyParser.json())
@@ -41,3 +41,20 @@ app.use('/',router)
 http.createServer(app).listen(app.get('port'), ()=>{
     console.log(app.get('port'))
 })
+
+const mongoClient = require('mongodb').MongoClient;
+
+const database
+
+function connectDB() {
+    //로컬 pc의 27017포트에서 실행되고 있는 localdatabase에 연결하도록 연결정보 설정.
+    let databaseUrl = 'mongodb://localhost:27017/local'
+
+    mongoClient.connect(databaseUrl, (err,db) =>{
+
+        if(err) throw err;
+
+        console.log('connected '+databaseUrl)
+        database = db
+    })
+}
