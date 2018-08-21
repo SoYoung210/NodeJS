@@ -158,7 +158,7 @@ printAnotherName()
 
 자, 이 코드의 실행결과는 무엇일까? 
 ~~저번엔 cookie 였으니까 이번엔 cream일거란 추측은....~~ 
-`cream`이다. 
+`cookie`이다. 
 
 printAnotherName에서 print를 호출했고, print 위치에서 name을 찾는 과정이 이루어지기 때문이다. 
 
@@ -184,7 +184,7 @@ function printAnotherName() {
 printAnotherName();
 ```
 
-이번엔 cookie 일까 cream일까 ? cream이다. 
+이번엔 cookie 일까 cream일까 ? `cream` 이다. 
 
 cookie & cream 코드는 전부 javascript scope 설명을 위한 코드였다. (!!)
 
