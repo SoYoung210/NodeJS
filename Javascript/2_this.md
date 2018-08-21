@@ -349,7 +349,7 @@ engine이라는 변수에 익명함수를 집어넣는데, 이 함수 안에서 
 다시한번 정리해서 말하자면, `() => {this.v++}` this는 함수가 선언된 위치의 바깥에 있는 this를 참고한다. (아까 cookie & cream 예제처럼 )  
 
 ## 내가 헷갈려서 하는 정리. 
-![node.js_code](./images/js-this1.png)
+![node.js_code](./images/js-this1.jpeg)
 
 이 코드에서 set, get 부분을 function 형태로 코딩하면 정상작동하지만  
 arrow function 으로 구현시 id값이 할당되지 않아 오류를 뱉는 상황에서부터 this에 대한 고민이 시작되었다.  
