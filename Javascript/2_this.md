@@ -158,7 +158,7 @@ printAnotherName()
 
 자, 이 코드의 실행결과는 무엇일까? 
 ~~저번엔 cookie 였으니까 이번엔 cream일거란 추측은....~~ 
-`cream`이다. 
+`cookie`이다. 
 
 printAnotherName에서 print를 호출했고, print 위치에서 name을 찾는 과정이 이루어지기 때문이다. 
 
@@ -184,7 +184,7 @@ function printAnotherName() {
 printAnotherName();
 ```
 
-이번엔 cookie 일까 cream일까 ? cream이다. 
+이번엔 cookie 일까 cream일까 ? `cream` 이다. 
 
 cookie & cream 코드는 전부 javascript scope 설명을 위한 코드였다. (!!)
 
@@ -349,7 +349,7 @@ engine이라는 변수에 익명함수를 집어넣는데, 이 함수 안에서 
 다시한번 정리해서 말하자면, `() => {this.v++}` this는 함수가 선언된 위치의 바깥에 있는 this를 참고한다. (아까 cookie & cream 예제처럼 )  
 
 ## 내가 헷갈려서 하는 정리. 
-![node.js_code](./images/js-this1.png)
+![node.js_code](./images/js-this1.jpeg)
 
 이 코드에서 set, get 부분을 function 형태로 코딩하면 정상작동하지만  
 arrow function 으로 구현시 id값이 할당되지 않아 오류를 뱉는 상황에서부터 this에 대한 고민이 시작되었다.  
