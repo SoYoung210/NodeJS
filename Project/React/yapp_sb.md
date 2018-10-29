@@ -114,3 +114,98 @@ class HistoryTab extends Component {
     }
   }
 ```
+
+## 개선 하는 중
+다행히도 프로젝트 종료전에 코드적으로 개선이 되고 있는 듯 하다.
+### saga의 도입 
+비동기 호출들을 saga로 정리했다. 
+덕분에 localStorage랑 엮여있는 `HistoryTab` 이 조금 깔끔해 졌다. 
+
+```javascript
+export function* updateHistoryLocalStorage(action) {
+  //FIXME : reaplace with selectSong action . song[0] === songId
+  const { songId } = action
+  console.log("action", action)
+  const targetId = songId
+  console.log("target id", targetId)
+  yield put(historySongRequest())
+
+  try {
+    let newHistory = []
+    if (checkValidValue(localStorage.historySong)) {
+      const localData = JSON.parse(localStorage.historySong)
+      let containsId = false
+
+      const localDataLen = localData.length
+      //let newHistory = []
+      let index
+      for (index = 0; index < localDataLen; index++) {
+        if (targetId === localData[index]) {
+          containsId = true
+          break
+        }
+      }
+      if (!checkValidValue(containsId)) {
+        localData.push(targetId)
+        localStorage.setItem("historySong", JSON.stringify(localData))
+      }
+
+      for (index = 0; index < localData.length; index++) {
+        newHistory.push(localData[index])
+      }
+    } else {
+      newHistory = [targetId]
+      localStorage.historySong = JSON.stringify(newHistory)
+    }
+    const data = yield all(newHistory.map(id => call(getSoundCloudSong, id)))
+    yield put(historySongSuccess(data))
+  } catch (err) {
+    console.log(err)
+    yield put(historySongFailure(err))
+  }
+}
+```
+이런 복잡한 로직은 전부 saga에서 처리한다. 
+
+HistoryTab 코드도 보자 .
+
+```jsx
+
+class HistoryTab extends Component {
+  renderHistory = () => {
+    console.log("history", this.props.historySong)
+    return this.props.historySong.map((song, index) => (
+      <HistoryComponent
+        key={`history-${index}`}
+        songId={song.data.id}
+        artwork={song.data.artwork_url}
+        duration={song.data.duration}
+        title={song.data.title}
+        singer={song.data.user.username}
+      />
+    ))
+  }
+  render() {
+    return (
+      <div className={cx(`${moduleName}`)}>
+        <div
+          className={cx(`${moduleName}__Wrapper`)}
+          style={{ color: "#ffffff" }}
+        >
+          {/*<button onClick={this._getHistorySong}>butn</button> */}
+          {this.props.historySong ? this.renderHistory() : "Loading"}
+        </div>
+      </div>
+    )
+  }
+}
+function mapStateToProps(state) {
+  return {
+    historySong: state.music.historySong
+  }
+}
+
+export default connect(mapStateToProps)(HistoryTab)
+```
+
+일단 길이가 짧아져서 행복하고, 버그도 사라졌다. 
