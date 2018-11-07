@@ -47,52 +47,81 @@ Tiramius.prototype.then = function (didFullfill) {
 
 (하지만 ES6에 들어서면서 class도 생기고 extends도 생겼다. 그래도 기초는 변하지 않는다. 문법이 추가되었을 뿐, 기반 자체가 변했다고 보기는 어렵지.)  
 
-## 간단한 예제.
+자바스크립트에서의 프로토 타입은 두 가지의 의미가 혼용되어 사용되고 있다.
 
-Javascript로 만들어진 어떤책을 봐도 초반부에 등장할만한 코드이다.
-
-```javascript
-function Person() {
-  this.eyes = 2;
-  this.nose = 1;
-}
-var kim  = new Person();
-var park = new Person();
-console.log(kim.eyes);  // => 2
-console.log(kim.nose);  // => 1
-console.log(park.eyes); // => 2
-console.log(park.nose); // => 1
-```
-
-kim과 park은 eyes와 nose를 공통적으로 가지고 있는데, 메모리에는 eyes와 nose가 두 개씩 총 4개 할당된다. 객체를100개 만들면 200개의 변수가 메모리에 할당되는 문제가 발생한다. (메모리 낭비)
-바로 이런 문제를 프로토타입으로 해결할 수 있다.  
+1. \___proto_\__ : 상위에서 물려 받은 객체의 프로토 타입에 대한 정보. (prototype link)
+2. prototype : 자신의 프로토타입 객체, 즉 하위로 물려 줄 프로토타입의 정보. (prototype object)
 
 ```javascript
-function Person() {}
-Person.prototype.eyes = 2;
-Person.prototype.nose = 1;
-var kim  = new Person();
-var park = new Person():
-console.log(kim.eyes); // => 2
+function Animal() {};
+console.dir(Animal);
 ```
-Person.prototype이라는 빈 Object가 어딘가에 존재하고, Person 함수로부터 생성된 객체(kim, park)들은 어딘가에 존재하는 Object에 들어있는 값을 모두 갖다쓸 수 있다. 
-(밑에서 조금 더 자세히 살펴본다.)  
-즉, eyes와 nose를 어딘가에 있는 빈 공간에 넣어놓고 kim과 park이 공유해서 사용하는 것. 이글을 여기까지 읽었는데 이해가 안돼도 지금은 괜찮다.  
 
-## Prototype Link와 Prototype Object
-자바스크립트에는 `Prototype Link` 와 `Prototype Object` 라는 것이 존재한다.  
-그리고 이 둘을 통틀어 **ProtoType** 이라고 부른다.  
+다음 코드를 콘솔에서 실행한 결과는 아래와 같다. 
 
-### Prototype Object
-모든 객체(Object)의 조상은 함수이다. 
+![image](https://user-images.githubusercontent.com/18658235/48145353-06e05f00-e2f6-11e8-82b0-f5f9bad87e8f.png)
+
+위 결과를 다이어그램으로 표시해 보자. 
+
+![image](https://user-images.githubusercontent.com/18658235/48145366-0b0c7c80-e2f6-11e8-8487-07c6a73ec17d.png)
+
+
+
+정의한 Animal 함수의 `__proto__` 는 Animal 객체를 생성할 때 사용될 원형 프로토 타입을 가리키고 있다. 
+
+> 두 가지중 첫 번째
+
+Animal 함수의 `prototype` 은 Animal의 프로토타입을 가리키고 있다. 
+
+> 두 가지중 두 번째 
 
 ```javascript
-function Person() {} // 함수
-
-var kim  = new Person(); // 함수로 객체를 생성 
+function Animal() {};
+Animal.prototype.bark = function () { console.log("왈왈!"); };
+var dog = new Animal();
+var cat = new Animal();
+console.dir(Animal);
+console.dir(dog);
+console.dir(cat);
 ```
 
+아래는 응용 ver.
 
+```javascript
+function Animal() {};
+Animal.prototype.bark = function () { console.log("왈왈!"); };
+var dog = new Animal();
+var cat = new Animal();
+console.dir(Animal);
+console.dir(dog);
+console.dir(cat);
+
+```
+
+![image](https://user-images.githubusercontent.com/18658235/48145321-f62fe900-e2f5-11e8-858f-7a2081f48bdb.png)
+
+
+생성한 cat, dog 객체의 `__proto__` (prototype link) 는, cat 객체와 dog 객체를 생성한 프로토타입 객체를 가르키고 있다.
+
+
+
+#### Prototype Chain
+
+코드 2에서 `dog.bark()` 를 실행하면 어떤 결과가 나올까? 
+
+> "왈왈"
+
+dog 객체에는 bark라는 함수가 정의 되어 있지 않지만, Animal 프로퍼티에는 bark라는 함수가 정의 되어 있고, Animal 프로퍼티에 정의된 bark의 결과 값을 얻게 된다.
+
+
+
+이와 같이 현재의 객체에서 어떠한 기능을 호출하였는데, 찾지 못하면 상위로 올라가 찾게된다.
+
+이러한 개념(반복하여 상위로 올라가며 찾는) 을 프로토타입 체인(Prototype Chain) 이라고 한다. 
+
+#### 참고
+
+[bemoy](
 ## 
 
 ## 출처
