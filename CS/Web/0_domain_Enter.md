@@ -89,6 +89,8 @@ Example :
 
 html tag를 검사하고, 이미지, css style sheet, js 파일 등과 같은 웹 페이지의 추가 요소에 대한 `GET` 요청을보낸다. 
 
+이후 렌더링 과정은 [1_how_to_browser_work.md](./1_how_to_browser_work.md) 에서 다룬다. 
+
 ### 출처
 
 [url-browser-enter](https://medium.com/@maneesha.wijesinghe1/what-happens-when-you-type-an-url-in-the-browser-and-press-enter-bb0aa2449c1a) 번역
