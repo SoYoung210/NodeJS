@@ -133,7 +133,7 @@ export function* updateHistoryLocalStorage(action) {
   try {
     let newHistory = []
     if (checkValidValue(localStorage.historySong)) {
-      const localData = JSON.parse(localStorage.historySong)
+      let localData = JSON.parse(localStorage.historySong)
       let containsId = false
 
       const localDataLen = localData.length
